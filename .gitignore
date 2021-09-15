@@ -12,6 +12,7 @@
 
 # profiling files
 chrome-profiler-events*.json
+speed-measure-plugin*.json
 
 # IDEs and editors
 /.idea
@@ -43,3 +44,10 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Firebase
+firestore-debug.log
+firebase-debug.log
+ui-debug.log
+lerna-debug.log
+/private/firestore.rules

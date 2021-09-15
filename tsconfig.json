@@ -2,7 +2,17 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": "src",
+    "paths": {
+      "@services/*": ["app/services/*"],
+      "@models/*": ["app/models/*"],
+      "@enums/*": ["app/enums/*"],
+      "@constants/*": ["app/constants/*"],
+      "@components/*": ["app/components/*"],
+      "@shared/*": ["app/shared/*"],
+      "@store/*": ["app/store/*"],
+      "@environments/*": ["environments/*"]
+    },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
