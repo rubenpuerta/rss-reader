@@ -1,0 +1,10 @@
+{
+	"/rss": {
+		"target": "https://www.xatakandroid.com",
+		"secure": false,
+		"pathRewrite": {
+			"^/rss": ""
+		},
+		"changeOrigin": true
+	}
+}

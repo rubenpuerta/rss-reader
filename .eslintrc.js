@@ -5,6 +5,11 @@ const foldersUnderSrc = fs
 	.filter((dirent) => dirent.isDirectory())
 	.map((dirent) => dirent.name);
 
+const foldersUnderSrcApp = fs
+	.readdirSync('src/app', { withFileTypes: true })
+	.filter((dirent) => dirent.isDirectory())
+	.map((dirent) => dirent.name);
+
 module.exports = {
 	root: true,
 	ignorePatterns: ['projects/**/*'],
@@ -176,7 +181,11 @@ module.exports = {
 							// Things that start with a letter (or digit or underscore), or `@` followed by a letter.
 							['^angular', '^@?\\w'],
 							// Absolute imports and Relative imports.
-							[`^(${foldersUnderSrc.join('|')})(/.*|$)`, '^\\.'],
+							[
+								`^@(${foldersUnderSrc.join('|')})(/.*|$)`,
+								`^@(${foldersUnderSrcApp.join('|')})(/.*|$)`,
+								'^\\.'
+							],
 							// for scss imports.
 							['^[^.]']
 						]
