@@ -1,9 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { iif, Observable, of } from 'rxjs';
-import { catchError, delay, map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import * as xml2js from 'xml2js';
 
+import { getBriefTitle, getFirstImage } from '@services/utils';
 import { RssResponse } from './../models/response.model';
 import { NewsItem, RawNewsItem } from './../models/rss-news.model';
 
@@ -29,13 +30,17 @@ export class RssFeedService {
 				responseType: 'text'
 			})
 			.pipe(
-				map((originalRss) => this.parseXML(originalRss)),
+				map((originalRss) => {
+					const parsedRss = this.parseXML(originalRss);
+					parsedRss.sort((a, b) => a.pubDate - b.pubDate);
+					return parsedRss;
+				}),
 				map(
-					(parsedRss): RssResponse<NewsItem[]> =>
-						parsedRss.length
+					(parsedAndOrderedRss): RssResponse<NewsItem[]> =>
+						parsedAndOrderedRss.length
 							? {
 									success: true,
-									data: parsedRss
+									data: parsedAndOrderedRss
 							  }
 							: { success: false, error: 'No news found' }
 				),
@@ -57,12 +62,15 @@ export class RssFeedService {
 		});
 		const parserCallBack = (_err: any, result: any) => {
 			const rssDataItems = result?.rss?.channel?.[0]?.item;
-			rssItems = rssDataItems.map((item: RawNewsItem) => ({
+			rssItems = rssDataItems.map((item: RawNewsItem, index: number) => ({
+				id: index,
 				author: item?.author?.[0],
 				description: item?.description?.[0],
 				guid: item?.guid?.[0],
-				pubDate: item?.pubDate?.[0],
-				title: item?.title?.[0]
+				pubDate: new Date(item?.pubDate?.[0]).getTime(),
+				title: item?.title?.[0],
+				imageUrl: getFirstImage(item?.description[0]),
+				articleBrief: getBriefTitle(item?.description[0])
 			}));
 		};
 		parser.parseString(rssData, parserCallBack);

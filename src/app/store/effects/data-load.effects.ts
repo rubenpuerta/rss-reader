@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 import { RssResponse } from '@models/response.model';
 import { NewsItem } from '@models/rss-news.model';
@@ -13,14 +13,15 @@ export class DataLoadEffects {
 		this.actions$.pipe(
 			ofType(DataLoadActions.initialDataLoad),
 			switchMap(() =>
-				this.rssService.readFeed().pipe(
-					tap(console.log),
-					map((response: RssResponse<NewsItem[]>) =>
-						response.success
-							? DataLoadActions.initialDataLoadSuccess({ news: response.data || [] })
-							: DataLoadActions.initialDataLoadFailure()
+				this.rssService
+					.readFeed()
+					.pipe(
+						map((response: RssResponse<NewsItem[]>) =>
+							response.success
+								? DataLoadActions.initialDataLoadSuccess({ news: response.data || [] })
+								: DataLoadActions.initialDataLoadFailure()
+						)
 					)
-				)
 			)
 		)
 	);

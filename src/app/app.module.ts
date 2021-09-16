@@ -15,7 +15,7 @@ import { appReducer } from '@store/reducers';
 import { AppComponent } from './app.component';
 
 @NgModule({
-	declarations: APP_COMPONENTS,
+	declarations: [AppComponent, APP_COMPONENTS],
 	imports: [
 		BrowserModule,
 		HttpClientModule,

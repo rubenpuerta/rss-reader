@@ -1,1 +1,23 @@
-<p>news-item works!</p>
+<div class="article">
+	<mat-card (click)="toggleState()">
+		<mat-card-header>
+			<mat-card-title>{{ title }}</mat-card-title>
+			<mat-card-subtitle>{{ author }}</mat-card-subtitle>
+		</mat-card-header>
+		<mat-card-content>
+			<ng-container *ngIf="collapsed; else expanded">
+				<div class="article__content">
+					<img width="400" height="200" class="article__content__image" [src]="imageUrl" />
+					<span class="article__content__text" [innerHTML]="articleBrief | sanitizeHtml"></span>
+				</div>
+			</ng-container>
+
+			<ng-template #expanded>
+				<div
+					class="article__content article__content--expanded"
+					[innerHTML]="htmlTextContent | sanitizeHtml"
+				></div>
+			</ng-template>
+		</mat-card-content>
+	</mat-card>
+</div>

@@ -1,4 +1,45 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+	height: 100%;
+}
+body {
+	margin: 0;
+	font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+$max-width: 1200px;
+$screen-mobile: 48em;
+
+@mixin mobile {
+	@media only screen and (max-width: #{$screen-mobile}) {
+		@content;
+	}
+}
+
+@mixin desktop {
+	@media only screen and (min-width: #{$screen-mobile+1}) {
+		@content;
+	}
+}
+
+.base-wrapper-image {
+	padding: 0 !important;
+}
+
+.mat-card-content img {
+	display: block;
+	max-width: 280px;
+	max-height: 157.5px;
+	width: auto;
+	height: auto;
+}
+
+@include desktop {
+	.mat-card-content img {
+		display: block;
+		max-width: 400px;
+		max-height: unset;
+	}
+}

@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+
+import { NewsItem } from '@models/rss-news.model';
 
 @Component({
-  selector: 'app-news-list',
-  templateUrl: './news-list.component.html',
-  styleUrls: ['./news-list.component.scss']
+	selector: 'app-news-list',
+	templateUrl: './news-list.component.html',
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NewsListComponent implements OnInit {
+export class NewsListComponent {
+	@Input() public rssFeed!: NewsItem[];
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+	public trackByIndex(index: number): number {
+		return index;
+	}
 }

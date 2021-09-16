@@ -1,0 +1,45 @@
+@import "../../../styles.scss";
+
+.article {
+  display: flex;
+  margin: 32px 0;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    padding: 0 16px;
+
+    &__image {
+      display: block;
+      height: auto;
+      max-height: 157.5px;
+      max-width: 280px;
+      width: auto;
+    }
+
+    &__text {
+      padding-top: 16px;
+    }
+  }
+}
+
+@include desktop {
+  .article {
+    &__content {
+      flex-flow: row nowrap;
+
+      &--expanded {
+        flex-flow: column nowrap;
+      }
+
+      &__text {
+        padding-left: 16px;
+        padding-top: 0;
+      }
+    }
+  }
+}

@@ -1,1 +1,12 @@
-<p>news-list works!</p>
+<ng-container *ngFor="let rssItem of rssFeed; trackBy: trackByIndex">
+	<app-news-item
+		[id]="rssItem.id"
+		[author]="rssItem.author"
+		[pubDate]="rssItem.pubDate"
+		[title]="rssItem.title"
+		[htmlTextContent]="rssItem.description"
+		[imageUrl]="rssItem.imageUrl"
+		[articleBrief]="rssItem.articleBrief"
+	>
+	</app-news-item>
+</ng-container>
