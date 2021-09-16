@@ -37,4 +37,14 @@ module.exports = {
 	},
 	testMatch: ['<rootDir>/src/app/*.spec.ts', '<rootDir>/src/app/**/*.spec.ts'],
 	moduleNameMapper
+	/* 	moduleNameMapper: {
+		'^@services/(.*)': ['<rootDir>/app/services/$1'],
+		'^@services/utils/(.*)': ['<rootDir>/app/services/utils/$1'],
+		'^@models/(.*)': ['<rootDir>/app/models/$1'],
+		'^@constants/(.*)': ['<rootDir>/app/constants/$1'],
+		'^@components/(.*)': ['<rootDir>/app/components/$1'],
+		'^@store/(.*)': ['<rootDir>/app/store/$1'],
+		'^@modules/(.*)': ['<rootDir>/app/modules/$1'],
+		'^@environments/(.*)': ['<rootDir>/environments/$1']
+	} */
 };

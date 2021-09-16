@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UI Selectors should return UI state 1`] = `
+Object {
+  "commonUI": Object {
+    "isLoading": false,
+  },
+}
+`;
+
+exports[`UI Selectors should return isLoading false 1`] = `false`;
+
+exports[`UI Selectors should return isLoading true 1`] = `true`;

@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rssReducer DataLoadActions.initialDataLoadSuccess should set initial load of rss 1`] = `
+Object {
+  "news": Array [
+    Object {
+      "articleBrief": "test-article-brief",
+      "author": "test-name",
+      "description": "test-html-code",
+      "guid": "test-guid",
+      "imageUrl": "test-url-path-image",
+      "pubDate": 12345,
+      "title": "test-title",
+    },
+  ],
+}
+`;
+
+exports[`rssReducer should contain initial state 1`] = `
+Object {
+  "news": Array [],
+}
+`;

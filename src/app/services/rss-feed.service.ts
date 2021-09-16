@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import * as xml2js from 'xml2js';
 
-import { getBriefTitle, getFirstImage } from '@services/utils';
+import { getBriefTitle, getFirstImage } from '@services/rss-feed.utils';
 import { RssResponse } from './../models/response.model';
 import { NewsItem, RawNewsItem } from './../models/rss-news.model';
 
@@ -62,8 +62,7 @@ export class RssFeedService {
 		});
 		const parserCallBack = (_err: any, result: any) => {
 			const rssDataItems = result?.rss?.channel?.[0]?.item;
-			rssItems = rssDataItems.map((item: RawNewsItem, index: number) => ({
-				id: index,
+			rssItems = rssDataItems.map((item: RawNewsItem) => ({
 				author: item?.author?.[0],
 				description: item?.description?.[0],
 				guid: item?.guid?.[0],

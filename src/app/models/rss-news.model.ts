@@ -1,5 +1,4 @@
 export interface NewsItem {
-	id: string;
 	author: string;
 	description: string;
 	guid: string;

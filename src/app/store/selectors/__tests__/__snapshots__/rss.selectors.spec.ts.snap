@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RssSelectors should return Rssstate 1`] = `
+Object {
+  "rssItems": Object {
+    "news": Array [],
+  },
+}
+`;
+
+exports[`RssSelectors should return an array with Rss 1`] = `
+Array [
+  Object {
+    "articleBrief": "test-article-brief",
+    "author": "test-name",
+    "description": "test-html-code",
+    "guid": "test-guid",
+    "imageUrl": "test-url-path-image",
+    "pubDate": 12345,
+    "title": "test-title",
+  },
+]
+`;
+
+exports[`RssSelectors should return an empty array 1`] = `Array []`;

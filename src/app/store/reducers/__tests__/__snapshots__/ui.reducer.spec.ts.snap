@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`uiReducer UIActions.startLoading should set isLoading to true 1`] = `
+Object {
+  "isLoading": true,
+}
+`;
+
+exports[`uiReducer UIActions.stopLoading should set isLoading to false 1`] = `
+Object {
+  "isLoading": false,
+}
+`;
+
+exports[`uiReducer should contain initial state 1`] = `
+Object {
+  "isLoading": false,
+}
+`;
