@@ -1,16 +1,31 @@
-import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { fakeAsync, TestBed } from '@angular/core/testing';
 
-import { RssFeedService } from '../rss-feed.service';
+import { RssFeedService } from '@services/rss-feed.service';
 
-describe('RssFeedService', () => {
-	let service: RssFeedService;
+describe('LocationService', () => {
+	let rssFeedService: RssFeedService;
+	let httpMock: HttpTestingController;
 
 	beforeEach(() => {
-		TestBed.configureTestingModule({});
-		service = TestBed.inject(RssFeedService);
+		TestBed.configureTestingModule({
+			imports: [HttpClientTestingModule],
+			providers: [RssFeedService]
+		});
+
+		rssFeedService = TestBed.inject(RssFeedService);
+		httpMock = TestBed.inject(HttpTestingController);
 	});
 
-	it('should be created', () => {
-		expect(service).toBeTruthy();
+	// eslint-disable-next-line jest/no-done-callback
+	it('should return rss info', (done) => {
+		rssFeedService.readFeed().subscribe((res) => {
+			expect(res).toEqual(['test']);
+			done();
+		});
+
+		let rssRequest = httpMock.expectOne('../../mocks/rss-response.mock.xml');
+
+		httpMock.verify();
 	});
 });

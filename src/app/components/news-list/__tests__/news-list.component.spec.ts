@@ -1,5 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { MockComponent } from 'ng-mocks';
 
+import { NewsItemComponent } from '@components/news-item';
 import { NewsListComponent } from '../news-list.component';
 
 describe('NewsListComponent', () => {
@@ -8,7 +11,7 @@ describe('NewsListComponent', () => {
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			declarations: [NewsListComponent]
+			declarations: [NewsListComponent, MockComponent(NewsItemComponent)]
 		}).compileComponents();
 	});
 
@@ -20,5 +23,11 @@ describe('NewsListComponent', () => {
 
 	it('should create', () => {
 		expect(component).toBeTruthy();
+	});
+
+	it('should create cards with articles', () => {
+		const rssItems = component.rssFeed.length;
+		const articlesNumber = fixture.debugElement.queryAll(By.css('app-news-item')).length;
+		expect(rssItems).toEqual(articlesNumber);
 	});
 });

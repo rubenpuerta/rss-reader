@@ -12,6 +12,7 @@
 			"@store/*": ["app/store/*"],
 			"@modules/*": ["app/modules/*"],
 			"@mocks/*": ["app/mocks/*"],
+			"@pipes/*": ["app/pipes/*"],
 			"@utils/*": ["app/utils/*"],
 			"@environments/*": ["environments/*"]
 		},
