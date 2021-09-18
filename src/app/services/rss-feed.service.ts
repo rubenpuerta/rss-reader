@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { from, Observable, of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import * as xml2js from 'xml2js';
 
 import { getBriefTitle, getFirstImage } from '@services/rss-feed.utils';
@@ -30,19 +30,22 @@ export class RssFeedService {
 				responseType: 'text'
 			})
 			.pipe(
-				map((originalRss) => {
-					const parsedRss = this.parseXML(originalRss);
-					parsedRss.sort((a, b) => a.pubDate - b.pubDate);
-					return parsedRss;
-				}),
-				map(
-					(parsedAndOrderedRss): RssResponse<NewsItem[]> =>
-						parsedAndOrderedRss.length
-							? {
-									success: true,
-									data: parsedAndOrderedRss
-							  }
-							: { success: false, error: 'No news found' }
+				switchMap((originalRss) =>
+					this.parseXML(originalRss).pipe(
+						map((parsedRss) => {
+							parsedRss.sort((a, b) => a.pubDate - b.pubDate);
+							return parsedRss;
+						}),
+						map(
+							(parsedAndOrderedRss): RssResponse<NewsItem[]> =>
+								parsedAndOrderedRss.length
+									? {
+											success: true,
+											data: parsedAndOrderedRss
+									  }
+									: { success: false, error: 'No news found' }
+						)
+					)
 				),
 				catchError(
 					(): Observable<RssResponse<NewsItem[]>> =>
@@ -51,28 +54,34 @@ export class RssFeedService {
 			);
 	}
 
-	private parseXML(rssData: string): NewsItem[] {
+	private parseXML(rssData: string): Observable<NewsItem[]> {
 		let rssItems: NewsItem[] = [];
 
-		if (!rssData) return rssItems;
+		if (!rssData) return of(rssItems);
 
 		const parser = new xml2js.Parser({
 			trim: true,
 			explicitArray: true
 		});
-		const parserCallBack = (_err: any, result: any) => {
-			const rssDataItems = result?.rss?.channel?.[0]?.item;
-			rssItems = rssDataItems.map((item: RawNewsItem) => ({
-				author: item?.author?.[0],
-				description: item?.description?.[0],
-				guid: item?.guid?.[0],
-				pubDate: new Date(item?.pubDate?.[0]).getTime(),
-				title: item?.title?.[0],
-				imageUrl: getFirstImage(item?.description[0]),
-				articleBrief: getBriefTitle(item?.description[0])
-			}));
-		};
-		parser.parseString(rssData, parserCallBack);
-		return rssItems;
+		const items = from(parser.parseStringPromise(rssData)).pipe(
+			map((rssXML) => rssXML?.rss?.channel?.[0]?.item),
+			map((rssitems) =>
+				rssitems.map((item: RawNewsItem) => {
+					const itemDescriptionHTML = item?.description?.[0];
+					const parserHTML = new DOMParser();
+					const htmlDoc = parserHTML.parseFromString(itemDescriptionHTML, 'text/html');
+					return {
+						author: item?.author?.[0],
+						description: item?.description?.[0],
+						guid: item?.guid?.[0],
+						pubDate: new Date(item?.pubDate?.[0]).getTime(),
+						title: item?.title?.[0],
+						imageUrl: getFirstImage(htmlDoc),
+						articleBrief: getBriefTitle(htmlDoc)
+					};
+				})
+			)
+		);
+		return items;
 	}
 }

@@ -5,16 +5,16 @@ import { MockComponent, MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles/marbles';
 
 import { NewsListComponent } from '@components/news-list';
+import { NewsListContainerComponent } from '@components/news-list-container';
 import { getMockState } from '@mocks/app-state-mock';
 import { getRssFeed } from '@store/selectors';
-import { NewsListContainerComponent } from '../news-list-container.component';
 
 describe('NewsListContainerComponent', () => {
 	let component: NewsListContainerComponent;
 	let fixture: ComponentFixture<NewsListContainerComponent>;
 
-	beforeEach(async () => {
-		await TestBed.configureTestingModule({
+	beforeEach(() => {
+		TestBed.configureTestingModule({
 			declarations: [NewsListContainerComponent, MockComponent(NewsListComponent)],
 			imports: [MockModule(ReactiveComponentModule)],
 			providers: [
@@ -28,14 +28,20 @@ describe('NewsListContainerComponent', () => {
 					]
 				})
 			]
-		}).compileComponents();
+		})
+			.compileComponents()
+			.then(() => {
+				fixture = TestBed.createComponent(NewsListContainerComponent);
+				component = fixture.componentInstance;
+				fixture.detectChanges();
+			});
 	});
 
-	beforeEach(() => {
+	/* 	beforeEach(() => {
 		fixture = TestBed.createComponent(NewsListContainerComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
-	});
+	}); */
 
 	it('should create', () => {
 		expect(component).toBeTruthy();

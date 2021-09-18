@@ -3,6 +3,7 @@ import { By } from '@angular/platform-browser';
 import { MockComponent } from 'ng-mocks';
 
 import { NewsItemComponent } from '@components/news-item';
+import { mockedNews } from '@mocks/app-state-mock';
 import { NewsListComponent } from '../news-list.component';
 
 describe('NewsListComponent', () => {
@@ -18,6 +19,7 @@ describe('NewsListComponent', () => {
 	beforeEach(() => {
 		fixture = TestBed.createComponent(NewsListComponent);
 		component = fixture.componentInstance;
+		component.rssFeed = mockedNews;
 		fixture.detectChanges();
 	});
 

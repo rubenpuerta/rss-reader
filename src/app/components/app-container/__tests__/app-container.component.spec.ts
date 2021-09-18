@@ -5,18 +5,18 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { MockComponent, MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles/marbles';
 
+import { AppContainerComponent } from '@components/app-container';
 import { NewsListContainerComponent } from '@components/news-list-container';
 import { getMockState } from '@mocks/app-state-mock';
 import { AngularMaterialModules } from '@modules/material.module';
 import { getIsAppLoading } from '@store/selectors';
-import { AppContainerComponent } from '../app-container.component';
 
 describe('AppContainerComponent', () => {
 	let component: AppContainerComponent;
 	let fixture: ComponentFixture<AppContainerComponent>;
 
-	beforeEach(async () => {
-		await TestBed.configureTestingModule({
+	beforeEach(() => {
+		TestBed.configureTestingModule({
 			declarations: [AppContainerComponent, MockComponent(NewsListContainerComponent)],
 			imports: [MockModule(AngularMaterialModules), MockModule(ReactiveComponentModule)],
 			providers: [
@@ -30,13 +30,13 @@ describe('AppContainerComponent', () => {
 					]
 				})
 			]
-		}).compileComponents();
-	});
-
-	beforeEach(() => {
-		fixture = TestBed.createComponent(AppContainerComponent);
-		component = fixture.componentInstance;
-		fixture.detectChanges();
+		})
+			.compileComponents()
+			.then(() => {
+				fixture = TestBed.createComponent(AppContainerComponent);
+				component = fixture.componentInstance;
+				fixture.detectChanges();
+			});
 	});
 
 	it('should create', () => {
@@ -47,11 +47,18 @@ describe('AppContainerComponent', () => {
 		'should set streams on init',
 		marbles((m) => {
 			m.expect(component.isLoading$).toBeObservable(m.cold('a', { a: false }));
+			m.flush();
 		})
 	);
 
 	it('should show news list container', () => {
-		const newsContainer = fixture.debugElement.query(By.css('app-news-list-container'));
+		const newsContainer = fixture.debugElement.query(By.css('app-news-list-containe'));
 		expect(newsContainer).toBeTruthy();
+	});
+
+	it('should show spinner', () => {
+		getIsAppLoading.setResult(true);
+		const spinner = fixture.debugElement.query(By.css('mat-spinner'));
+		expect(spinner).toBeTruthy();
 	});
 });
