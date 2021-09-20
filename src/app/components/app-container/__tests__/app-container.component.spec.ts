@@ -52,7 +52,7 @@ describe('AppContainerComponent', () => {
 	);
 
 	it('should show news list container', () => {
-		const newsContainer = fixture.debugElement.query(By.css('app-news-list-containe'));
+		const newsContainer = fixture.debugElement.query(By.css('app-news-list-container'));
 		expect(newsContainer).toBeTruthy();
 	});
 
